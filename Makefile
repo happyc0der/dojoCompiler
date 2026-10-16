@@ -6,10 +6,10 @@ OBJ = $(patsubst src/%.c, build/%.o, $(SRC))
 build/mycc: $(OBJ)
 	$(CC) $(CFLAGS) $^ -o $@
 
-build/%.o: src/%.c |  makebuild
+build/%.o: src/%.c |  build
 	$(CC) $(CFLAGS) -c $< -o $@
 
-makebuild:
+build:
 	mkdir -p build
 
 test: build/mycc
