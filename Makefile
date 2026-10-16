@@ -1,4 +1,4 @@
-CC = clang
+CC = gcc
 CFLAGS = -Wall -Wextra -std=c11 -g
 SRC = $(wildcard src/*.c)
 OBJ = $(patsubst src/%.c, build/%.o, $(SRC))
@@ -6,8 +6,11 @@ OBJ = $(patsubst src/%.c, build/%.o, $(SRC))
 build/mycc: $(OBJ)
 	$(CC) $(CFLAGS) $^ -o $@
 
-build/%.o: src/%.c
+build/%.o: src/%.c |  makebuild
 	$(CC) $(CFLAGS) -c $< -o $@
+
+makebuild:
+	mkdir -p build
 
 test: build/mycc
 	./tests/run_tests.sh
