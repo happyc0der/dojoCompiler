@@ -1,5 +1,5 @@
 CC = gcc
-CFLAGS = -Wall -Wextra -std=c11 -g
+CFLAGS = -Wall -Wextra -std=c11 -g -pedantic -fsanitize=address -fsanitize=undefined -fno-omit-frame-pointer 
 SRC := $(wildcard src/*.c)
 OBJ = $(patsubst src/%.c, build/%.o, $(SRC))
 TEST = $(filter-out build/main.o, $(OBJ))
