@@ -2,18 +2,18 @@ CC = gcc
 CFLAGS = -Wall -Wextra -std=c11 -g
 SRC := $(wildcard src/*.c)
 OBJ = $(patsubst src/%.c, build/%.o, $(SRC))
-OBJ_TEST = $(filter-out build/main.o, $(OBJ))
+TEST = $(filter-out build/main.o, $(OBJ))
 .PHONY: clean test
 build/mycc: $(OBJ)
 	$(CC) $(CFLAGS) $^ -o $@
 
 build/%.o: src/%.c |  build
-	$(CC) $(CFLAGS) -c $< -o $@
+	$(CC) $(CFLAGS) -MMD -MP -c $< -o $@
 
 test: build/test_lexer 
 	./$<
 
-build/test_lexer: tests/test_lexer.c $(OBJ_TEST) | build
+build/test_lexer: tests/test_lexer.c $(TEST) | build
 	$(CC) $(CFLAGS) -o $@ $^
 
 build:
@@ -21,3 +21,5 @@ build:
 
 clean:
 	rm -rf build/
+
+-include  $(OBJ:.o=.d)
